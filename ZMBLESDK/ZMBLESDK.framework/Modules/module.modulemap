@@ -1,0 +1,6 @@
+framework module ZMBLESDK {
+  umbrella header "ZMBLESDK.h"
+
+  export *
+  module * { export * }
+}
