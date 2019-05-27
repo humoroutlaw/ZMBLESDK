@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2CC55A02BFAB93C266EB2F5D /* libPods-ZMKMDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 348D974936C52C0A249982E2 /* libPods-ZMKMDemo.a */; };
-		711CD893214F783D008522E5 /* CALayer+CALayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 711CD892214F783D008522E5 /* CALayer+CALayer.m */; };
 		711CD896214F79B8008522E5 /* BaseSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 711CD895214F79B8008522E5 /* BaseSearchVC.m */; };
 		7132120B215C8B72009E66CA /* Login.png in Resources */ = {isa = PBXBuildFile; fileRef = 7132120A215C8B72009E66CA /* Login.png */; };
 		914E74E71DB13C92004BEE21 /* FuncViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914E74E61DB13C92004BEE21 /* FuncViewController.m */; };
@@ -26,8 +25,6 @@
 /* Begin PBXFileReference section */
 		02B3718AC2059F2EE842BAEB /* Pods-ZMKMDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZMKMDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZMKMDemo/Pods-ZMKMDemo.release.xcconfig"; sourceTree = "<group>"; };
 		348D974936C52C0A249982E2 /* libPods-ZMKMDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZMKMDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		711CD891214F783D008522E5 /* CALayer+CALayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CALayer+CALayer.h"; sourceTree = "<group>"; };
-		711CD892214F783D008522E5 /* CALayer+CALayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+CALayer.m"; sourceTree = "<group>"; };
 		711CD894214F79B8008522E5 /* BaseSearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseSearchVC.h; sourceTree = "<group>"; };
 		711CD895214F79B8008522E5 /* BaseSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseSearchVC.m; sourceTree = "<group>"; };
 		7132120A215C8B72009E66CA /* Login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login.png; sourceTree = "<group>"; };
@@ -112,8 +109,6 @@
 				914E74E61DB13C92004BEE21 /* FuncViewController.m */,
 				711CD894214F79B8008522E5 /* BaseSearchVC.h */,
 				711CD895214F79B8008522E5 /* BaseSearchVC.m */,
-				711CD891214F783D008522E5 /* CALayer+CALayer.h */,
-				711CD892214F783D008522E5 /* CALayer+CALayer.m */,
 				7132120A215C8B72009E66CA /* Login.png */,
 				9174DB9A1DAFC86000344419 /* Assets.xcassets */,
 				9174DB9C1DAFC86000344419 /* LaunchScreen.storyboard */,
@@ -241,7 +236,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9174DB961DAFC86000344419 /* ViewController.m in Sources */,
-				711CD893214F783D008522E5 /* CALayer+CALayer.m in Sources */,
 				9174DB931DAFC86000344419 /* AppDelegate.m in Sources */,
 				914E74E71DB13C92004BEE21 /* FuncViewController.m in Sources */,
 				711CD896214F79B8008522E5 /* BaseSearchVC.m in Sources */,
