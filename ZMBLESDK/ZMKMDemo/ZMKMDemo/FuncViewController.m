@@ -50,15 +50,23 @@ uint8_t Crc8(const void *vptr, int len);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.title = @"锁详情";
-    NSLog(@"数据源1%@",[ZMBleManager sharedManager]);
-    NSLog(@"数据源%@",[ZMBleManager sharedManager].deviceList);
+    self.title = @"锁详情";
+    self.startTime.text = [self getTime:0];
+    self.endTime.text = [self getTime:24*60*60];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (NSString *)getTime:(NSTimeInterval)interval{
+    NSDate * date = [NSDate dateWithTimeIntervalSinceNow:interval];
+    NSDateFormatter * format = [[NSDateFormatter alloc]init];
+    [format setDateFormat:@"yy-MM-dd HH:mm"];
+    return [format stringFromDate:date];
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     if (self.theDevice.peripheral.state == CBPeripheralStateConnecting ||
@@ -108,7 +116,7 @@ uint8_t Crc8(const void *vptr, int len);
     cmd.adminId = [self myAdminId];
     
     NSLog(@"set adminId %@", ZMAdminIdTypeToStr(cmd.adminId));
-    
+        
     int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
@@ -121,8 +129,6 @@ uint8_t Crc8(const void *vptr, int len);
     }
 }
 - (IBAction)reconnectDevice:(id)sender {
-    NSLog(@"数据源1%@",[ZMBleManager sharedManager]);
-    NSLog(@"数据源%@",[ZMBleManager sharedManager].deviceList);
     if (_theDevice.peripheral.state != CBPeripheralStateConnected) {
          [[ZMBleManager sharedManager]startConnect:_theDevice.peripheral characteristics:nil];
     }
@@ -155,17 +161,13 @@ uint8_t Crc8(const void *vptr, int len);
     cmd.adminId = [self myAdminId];
     
     int errCode = [_theDevice sendCmd:cmd retBlock2:^ (ZMCmdResponse_2 *rsp) {
-        if (rsp.result == 0) {
-            NSMutableString *str = [NSMutableString new];
-            ZMPasswordType password = rsp.password;
-            [str appendFormat:@"查询成功\n"];
-            [str appendFormat:@"管理员密码 %@ ", ZMBcdTypeToStr(&password, sizeof(password))];
-            [str appendFormat:@"电量 %2.2fV ", rsp.voltage];
-            [str appendFormat:@"时间 %d-%d-%d %d:%d:%d", rsp.year, rsp.month, rsp.day, rsp.hour, rsp.minute, rsp.seconds];
-            [SVProgressHUD showSuccessWithStatus:str];
-        }else{
-            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
-        }
+        NSMutableString *str = [NSMutableString new];
+        ZMPasswordType password = rsp.password;
+        [str appendFormat:@"%@ ", [NSString stringWithFormat:@"Errcode:%d",rsp.result]];
+        [str appendFormat:@"管理员密码 %@ ", ZMBcdTypeToStr(&password, sizeof(password))];
+        [str appendFormat:@"电量 %2.2fV ", rsp.voltage];
+        [str appendFormat:@"时间 %d-%d-%d %d:%d:%d", rsp.year, rsp.month, rsp.day, rsp.hour, rsp.minute, rsp.seconds];
+        [SVProgressHUD showInfoWithStatus:str];
         return;
     }];
     if (errCode == ZMDeviceNotConnect) {
@@ -182,7 +184,7 @@ uint8_t Crc8(const void *vptr, int len);
     
     int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
         if (rsp.result != 0) {
-            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Errcode:%d",rsp.result]];
 
         }else{
             [SVProgressHUD showSuccessWithStatus:@"管理员密码修改成功"];

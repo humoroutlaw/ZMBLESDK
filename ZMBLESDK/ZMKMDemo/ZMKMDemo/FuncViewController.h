@@ -18,7 +18,6 @@
 @property (nonatomic, weak) IBOutlet UITextField  *adminPasswordLabel;
 @property (nonatomic, weak) IBOutlet UITextField  *timeLabel;
 
-
 @property (nonatomic, weak) IBOutlet UITextField  *startTime;
 @property (nonatomic, weak) IBOutlet UITextField  *endTime;
 

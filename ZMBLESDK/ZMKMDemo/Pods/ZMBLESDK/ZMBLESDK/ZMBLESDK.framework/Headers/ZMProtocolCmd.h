@@ -123,6 +123,8 @@ typedef enum : uint8_t {
 
 @property uint8_t command;
 @property BOOL noDecrpt;
+@property uint8_t timeKey;
+  //比如16年10月14号11点 直接使用16进制表示0x16 0x10 0x14 0x11 相加等于4B 则timeKey = 0x4B
 
 - (void)unbox:(NSData *)data;
 - (void)receive:(NSArray<NSData *> *)recordList;
@@ -186,7 +188,7 @@ Time end2:1天内第2个有效时间窗的结束时间默认 FFFF
 2.2.1 开锁指令应答
 蓝牙锁->app    COMMAND Type: 0x02
  COMMAND:命令类型，与下发过来的相同;
- Result:返回执行结果-->   0:命令执行成功;
+ Result:返回执行结果-->    0:命令执行成功;
                          4:管理员ID校验错误;
                          5:电子钥匙过有效期;
                          6:电子钥匙未到启用时间;
@@ -194,7 +196,8 @@ Time end2:1天内第2个有效时间窗的结束时间默认 FFFF
                          12:时间有误需管理员校对时间
 
 */
-@interface ZMCmd0x02_1:ZMCmdBase {
+@interface ZMCmd0x02_1:ZMCmdBase{
+    
 @public
     
 }
