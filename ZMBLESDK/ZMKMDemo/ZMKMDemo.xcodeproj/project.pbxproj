@@ -31,8 +31,6 @@
 		711CD894214F79B8008522E5 /* BaseSearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseSearchVC.h; sourceTree = "<group>"; };
 		711CD895214F79B8008522E5 /* BaseSearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseSearchVC.m; sourceTree = "<group>"; };
 		7132120A215C8B72009E66CA /* Login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Login.png; sourceTree = "<group>"; };
-		717AC2B01FF0D22500713868 /* ZMBLESDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZMBLESDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/ZMBLESDK-fcobnhecgjnlllaawpawzaovcahj/Build/Products/Release-iphoneos/ZMBLESDK.framework"; sourceTree = "<group>"; };
-		71BD22872008503F0094129C /* ZMBLESDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZMBLESDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/ZMBLESDK-fcobnhecgjnlllaawpawzaovcahj/Build/Products/Release-iphonesimulator/ZMBLESDK.framework"; sourceTree = "<group>"; };
 		914E74E51DB13C92004BEE21 /* FuncViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuncViewController.h; sourceTree = "<group>"; };
 		914E74E61DB13C92004BEE21 /* FuncViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuncViewController.m; sourceTree = "<group>"; };
 		914E74E81DB13ECE004BEE21 /* ZMKMDemo.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZMKMDemo.pch; sourceTree = "<group>"; };
@@ -78,8 +76,6 @@
 		7199A7101FEC9F1500626869 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				71BD22872008503F0094129C /* ZMBLESDK.framework */,
-				717AC2B01FF0D22500713868 /* ZMBLESDK.framework */,
 				348D974936C52C0A249982E2 /* libPods-ZMKMDemo.a */,
 			);
 			name = Frameworks;
