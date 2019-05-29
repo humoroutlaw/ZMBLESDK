@@ -8,6 +8,7 @@
 #define ZMProtocolCmd_h
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 typedef struct {
     char    password[4];        // 比如 '1234'，无0结尾
@@ -119,12 +120,15 @@ typedef enum : uint8_t {
 @interface ZMCmdBase : NSObject {
 @public
     uint8_t _command;
+    CGFloat _timeOut;
 }
 
 @property uint8_t command;
 @property BOOL noDecrpt;
 @property uint8_t timeKey;
   //比如16年10月14号11点 直接使用16进制表示0x16 0x10 0x14 0x11 相加等于4B 则timeKey = 0x4B
+@property BOOL getValue;
+@property CGFloat timeOut;//通讯超时时间 
 
 - (void)unbox:(NSData *)data;
 - (void)receive:(NSArray<NSData *> *)recordList;
