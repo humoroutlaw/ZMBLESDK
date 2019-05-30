@@ -9,14 +9,13 @@
 @import CoreBluetooth;
 @class ZMDevice;
 
-typedef void(^RetCmdBlock)(id rsp);
-
-
 typedef NS_ENUM(NSUInteger, ZMDeviceError) {
     ZMDeviceNoError = 0,
     ZMDeviceNotConnect,
     ZMDeviceNoCBCharacteristic,
+    ZMDeviceTimeout,
 };
+typedef void(^RetCmdBlock)(id rsp,ZMDeviceError error);
 
 @interface ZMDevice : NSObject
 

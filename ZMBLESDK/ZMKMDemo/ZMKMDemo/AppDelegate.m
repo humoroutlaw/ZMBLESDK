@@ -5,6 +5,7 @@
 //
 
 #import "AppDelegate.h"
+#import <IQKeyboardManager.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,7 @@
     // Override point for customization after application launch.
     [[ZMBleManager sharedManager]initBLE];
     [[ZMBleManager sharedManager]turnOnLog];
+    [[IQKeyboardManager sharedManager]setEnableAutoToolbar:YES];
     return YES;
 }
 

@@ -117,7 +117,11 @@ uint8_t Crc8(const void *vptr, int len);
     
     NSLog(@"set adminId %@", ZMAdminIdTypeToStr(cmd.adminId));
         
-    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout){
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
@@ -144,7 +148,11 @@ uint8_t Crc8(const void *vptr, int len);
         [cmd addPassword:pass];
     }
     
-    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
@@ -160,15 +168,23 @@ uint8_t Crc8(const void *vptr, int len);
     ZMCmd0x04 *cmd = [ZMCmd0x04 new];
     cmd.adminId = [self myAdminId];
     
-    int errCode = [_theDevice sendCmd:cmd retBlock2:^ (ZMCmdResponse_2 *rsp) {
-        NSMutableString *str = [NSMutableString new];
-        ZMPasswordType password = rsp.password;
-        [str appendFormat:@"%@ ", [NSString stringWithFormat:@"Errcode:%d",rsp.result]];
-        [str appendFormat:@"管理员密码 %@ ", ZMBcdTypeToStr(&password, sizeof(password))];
-        [str appendFormat:@"电量 %2.2fV ", rsp.voltage];
-        [str appendFormat:@"时间 %d-%d-%d %d:%d:%d", rsp.year, rsp.month, rsp.day, rsp.hour, rsp.minute, rsp.seconds];
-        [SVProgressHUD showInfoWithStatus:str];
-        return;
+    int errCode = [_theDevice sendCmd:cmd retBlock2:^ (ZMCmdResponse_2 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
+        if (rsp.result != 0) {
+            [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
+        }else{
+            NSMutableString *str = [NSMutableString new];
+            ZMPasswordType password = rsp.password;
+            [str appendFormat:@"查询成功\n"];
+            [str appendFormat:@"管理员密码 %@ \n", ZMBcdTypeToStr(&password, sizeof(password))];
+            [str appendFormat:@"电量 %2.2fV \n", rsp.voltage];
+            [str appendFormat:@"时间 %02d-%02d-%02d %02d:%02d:%02d\n", rsp.year, rsp.month, rsp.day, rsp.hour, rsp.minute, rsp.seconds];
+            [SVProgressHUD showInfoWithStatus:str];
+            return;
+        }
     }];
     if (errCode == ZMDeviceNotConnect) {
         [SVProgressHUD showInfoWithStatus:@"设备未连接"];
@@ -182,7 +198,11 @@ uint8_t Crc8(const void *vptr, int len);
     ZMBcdTypeFromStr(_adminPasswordLabel.text, &pass, sizeof(pass));
     cmd.password = pass;
     
-    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Errcode:%d",rsp.result]];
 
@@ -210,7 +230,11 @@ uint8_t Crc8(const void *vptr, int len);
     cmd.minute = [[_timeLabel.text substringWithRange:NSMakeRange(12, 2)] intValue];
     cmd.seconds = [[_timeLabel.text substringWithRange:NSMakeRange(15, 2)] intValue];
     
-    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
@@ -232,7 +256,11 @@ uint8_t Crc8(const void *vptr, int len);
     ZMCmd0x02_1 *cmd = [ZMCmd0x02_1 new];
     cmd.adminId = [self myAdminId];
     cmd.type = 1;
-    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
@@ -268,13 +296,16 @@ uint8_t Crc8(const void *vptr, int len);
     cmd.end2Hour = get_time_type(_timeEnd2.text, Hour);
     cmd.end2Minute = get_time_type(_timeEnd2.text, Minute);
 
-    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
             [SVProgressHUD showSuccessWithStatus:@"门锁已开"];
         }
-        
     }];
     if (errCode == ZMDeviceNotConnect) {
         [SVProgressHUD showInfoWithStatus:@"设备未连接"];
@@ -283,7 +314,11 @@ uint8_t Crc8(const void *vptr, int len);
 
 - (IBAction)doCheckAdmin:(id)sender {
     ZMCmd0x07 *cmd = [ZMCmd0x07 new];
-    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         [SVProgressHUD showInfoWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
     }];
     if (errCode == ZMDeviceNotConnect) {
@@ -294,7 +329,11 @@ uint8_t Crc8(const void *vptr, int len);
 - (IBAction)getUnlockRecord:(id)sender{
     ZMCmd0x0B * cmd = [ZMCmd0x0B new];
     cmd.adminId = [self myAdminId];
-    [_theDevice sendCmd:cmd retBlock3:^(ZMCmdResponse_3 * rsp){
+   int errCode = [_theDevice sendCmd:cmd retBlock3:^(ZMCmdResponse_3 * rsp,ZMDeviceError error){
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
     if (rsp.result != 0 && rsp.result != 3) {
         [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         [SVProgressHUD setForegroundColor:[UIColor blackColor]];
@@ -303,25 +342,36 @@ uint8_t Crc8(const void *vptr, int len);
     else if (rsp.result == 3){
         [SVProgressHUD showInfoWithStatus:@"暂无记录"];
     } else{
-        if (rsp.unlockRecords.count) {
-            //获取到门锁记录,删除记录
-        [self deleteDoorUnlockRecord:_theDevice];
+        if (rsp.unlockRecords.count){
+         //获取到门锁记录,删除记录
+         [self deleteDoorUnlockRecord:_theDevice];
         }
-    }
+      }
     }];
+    if (errCode == ZMDeviceNotConnect) {
+        [SVProgressHUD showInfoWithStatus:@"设备未连接"];
+    }
 }
 
--(void)deleteDoorUnlockRecord:(ZMDevice *)dev
-{
+-(void)deleteDoorUnlockRecord:(ZMDevice *)dev{
     ZMCmd0x0C * cmd = [ZMCmd0x0C new];
     cmd.adminId = [self myAdminId];
-    [dev sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp) {
+   int errCode = [dev sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0){
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
             [SVProgressHUD setForegroundColor:[UIColor blackColor]];
             [SVProgressHUD setBackgroundColor:[UIColor whiteColor]];
         }
     }];
+    
+    if (errCode == ZMDeviceNotConnect) {
+        [SVProgressHUD showInfoWithStatus:@"设备未连接"];
+    }
+    
 }
 
 - (IBAction)addFingerprints:(id)sender{
@@ -331,7 +381,11 @@ uint8_t Crc8(const void *vptr, int len);
     cmd.month = 05;
     cmd.day = 22;
     cmd.hour = 15;
-    [_theDevice sendCmd:cmd retBlock4:^(ZMCmdResponse_4 * rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock4:^(ZMCmdResponse_4 * rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.command == 8) {
             if (rsp.result != 0){
                  [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
@@ -340,10 +394,13 @@ uint8_t Crc8(const void *vptr, int len);
             }
         }
         if (rsp.command == 9) {
-            if (rsp.result != 0) {
+            if (rsp.result != 0){
                 [SVProgressHUD showErrorWithStatus:@"指纹采集失败"];
             }
             if (rsp.comd == 1){
+                [SVProgressHUD showInfoWithStatus:@"请按手指再次采集指纹"];
+            }
+            if (rsp.comd == 2){
                 [SVProgressHUD showInfoWithStatus:@"请按手指再次采集指纹"];
             }
         }
@@ -359,12 +416,19 @@ uint8_t Crc8(const void *vptr, int len);
             }
         }
     }];
+    if (errCode == ZMDeviceNotConnect) {
+        [SVProgressHUD showInfoWithStatus:@"设备未连接"];
+    }
 }
 
 - (IBAction)getAllFingerprints:(id)sender {
     ZMCMD0x0D * cmd = [[ZMCMD0x0D alloc]init];
     cmd.adminId =  [self myAdminId];
-    [_theDevice sendCmd:cmd retBlock3:^(ZMCmdResponse_3 * rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock3:^(ZMCmdResponse_3 * rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0 && rsp.result != 3) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
@@ -376,19 +440,29 @@ uint8_t Crc8(const void *vptr, int len);
             }
         }
     }];
+    if (errCode == ZMDeviceNotConnect) {
+        [SVProgressHUD showInfoWithStatus:@"设备未连接"];
+    }
 }
 
 - (IBAction)deleteFingerPrint:(id)sender{
     ZMCmd0x0E * cmd = [[ZMCmd0x0E alloc]init];
     cmd.adminId = [self myAdminId];
     cmd.printID = 0; //传0删除全部指纹,如需删除相应指纹id则传对应的数值
-    [_theDevice sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
             [SVProgressHUD showSuccessWithStatus:@"指纹删除成功"];
         }
     }];
+    if (errCode == ZMDeviceNotConnect) {
+        [SVProgressHUD showInfoWithStatus:@"设备未连接"];
+    }
 }
 
 - (IBAction)modifyFingerPrint:(id)sender {
@@ -399,13 +473,20 @@ uint8_t Crc8(const void *vptr, int len);
     cmd.month = 5;
     cmd.day = 22;
     cmd.hour = 15;
-    [_theDevice sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
             [SVProgressHUD showSuccessWithStatus:@"修改成功"];
         }
     }];
+    if (errCode == ZMDeviceNotConnect) {
+        [SVProgressHUD showInfoWithStatus:@"设备未连接"];
+    }
 }
 - (IBAction)resetLookToFactoryMode:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"您确定要初始化门锁吗?"
@@ -428,13 +509,20 @@ uint8_t Crc8(const void *vptr, int len);
 -(void)resetFactoryMode{
     ZMCmd0x14 * cmd = [[ZMCmd0x14 alloc]init];
     cmd.adminId = [self myAdminId];
-    [_theDevice sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp) {
+    int errCode = [_theDevice sendCmd:cmd retBlock1:^(ZMCmdResponse_1 * rsp,ZMDeviceError error) {
+        if (error == ZMDeviceTimeout) {
+            [SVProgressHUD showInfoWithStatus:@"超时洛"];
+            return;
+        }
         if (rsp.result != 0) {
             [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"Msg:%d",rsp.result]];
         }else{
             [SVProgressHUD showSuccessWithStatus:@"门锁已初始化"];
         }
     }];
+    if (errCode == ZMDeviceNotConnect) {
+        [SVProgressHUD showInfoWithStatus:@"设备未连接"];
+    }
 }
 
 
@@ -442,8 +530,6 @@ uint8_t Crc8(const void *vptr, int len);
     [super touchesBegan:touches withEvent:event];
     [self.view endEditing:YES];
 }
-
-// -------------------------------------------------
 
 - (void)onConnected:(ZMDevice *)device {
     [SVProgressHUD dismiss];
