@@ -19,6 +19,7 @@
     [[ZMBleManager sharedManager]initBLE];
     [[ZMBleManager sharedManager]turnOnLog];
     [[IQKeyboardManager sharedManager]setEnableAutoToolbar:YES];
+    [[IQKeyboardManager sharedManager]setShouldResignOnTouchOutside:YES];
     return YES;
 }
 

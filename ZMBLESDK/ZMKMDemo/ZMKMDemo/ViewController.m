@@ -6,7 +6,6 @@
 
 #import "ViewController.h"
 #import "FuncViewController.h"
-@class ZMBLESDK;
 
 @interface ViewController ()
 

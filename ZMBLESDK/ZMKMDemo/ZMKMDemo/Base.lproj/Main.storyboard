@@ -230,7 +230,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="JUY-1K-vkT"/>
                                 </constraints>
-                                <state key="normal" title="管理员开锁"/>
+                                <state key="normal" title="管理员操作"/>
                                 <connections>
                                     <action selector="doUnlock1:" destination="fRW-hv-YA1" eventType="touchUpInside" id="LJ6-hP-eNE"/>
                                 </connections>
@@ -240,7 +240,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Y5G-eH-K1V"/>
                                 </constraints>
-                                <state key="normal" title="用户开锁"/>
+                                <state key="normal" title="用户操作"/>
                                 <connections>
                                     <action selector="doUnlock2:" destination="fRW-hv-YA1" eventType="touchUpInside" id="Clq-ar-KXW"/>
                                 </connections>
@@ -412,6 +412,55 @@
                                     <action selector="resetLookToFactoryMode:" destination="fRW-hv-YA1" eventType="touchUpInside" id="7mk-ZW-x7j"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="EaJ-eE-0P2">
+                                <rect key="frame" x="109" y="318" width="220" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VN8-an-iuy" customClass="DLRadioButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="开锁">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="doSetCommandType:" destination="fRW-hv-YA1" eventType="touchUpInside" id="SXG-UP-ZvR"/>
+                                            <outletCollection property="otherButtons" destination="jdL-L3-IV5" id="H53-FQ-zo5"/>
+                                            <outletCollection property="otherButtons" destination="Ol2-2h-NJL" id="f37-8t-6Kr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jdL-L3-IV5" customClass="DLRadioButton">
+                                        <rect key="frame" x="80" y="0.0" width="60" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="60" id="ssg-8K-wI8"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="闭锁">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="doSetCommandType:" destination="fRW-hv-YA1" eventType="touchUpInside" id="Yfg-UC-93z"/>
+                                            <outletCollection property="otherButtons" destination="VN8-an-iuy" id="MSm-a3-baS"/>
+                                            <outletCollection property="otherButtons" destination="Ol2-2h-NJL" id="iGr-0Y-afG"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ol2-2h-NJL" customClass="DLRadioButton">
+                                        <rect key="frame" x="160" y="0.0" width="60" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="常开">
+                                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="doSetCommandType:" destination="fRW-hv-YA1" eventType="touchUpInside" id="QFk-DU-Pgl"/>
+                                            <outletCollection property="otherButtons" destination="jdL-L3-IV5" id="7Kb-A0-D5u"/>
+                                            <outletCollection property="otherButtons" destination="VN8-an-iuy" id="FQw-aY-FHP"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Ol2-2h-NJL" firstAttribute="width" secondItem="jdL-L3-IV5" secondAttribute="width" id="DNB-gu-04q"/>
+                                    <constraint firstAttribute="height" constant="30" id="KJL-Cv-Mdf"/>
+                                    <constraint firstItem="VN8-an-iuy" firstAttribute="width" secondItem="jdL-L3-IV5" secondAttribute="width" id="XyW-py-9JA"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -436,6 +485,7 @@
                             <constraint firstItem="AX0-Oc-KqE" firstAttribute="top" secondItem="gXB-YK-ELO" secondAttribute="bottom" constant="10" id="PPC-I4-wrE"/>
                             <constraint firstItem="Dfh-jp-IUp" firstAttribute="top" secondItem="1zS-Ef-1fD" secondAttribute="bottom" constant="10" id="RXg-ic-Kdj"/>
                             <constraint firstItem="WjV-Mj-RfF" firstAttribute="centerY" secondItem="1zS-Ef-1fD" secondAttribute="centerY" id="TKp-fs-3bX"/>
+                            <constraint firstItem="EaJ-eE-0P2" firstAttribute="top" secondItem="feH-fU-wDO" secondAttribute="bottom" constant="34" id="UiP-OC-2EC"/>
                             <constraint firstItem="2yA-B9-lo0" firstAttribute="centerY" secondItem="dBO-5d-Y2a" secondAttribute="centerY" id="VoS-8a-9ub"/>
                             <constraint firstItem="eTe-YL-ihq" firstAttribute="leading" secondItem="seo-ZC-mcR" secondAttribute="leading" id="W8q-OY-CPA"/>
                             <constraint firstItem="EQn-Ui-9g2" firstAttribute="leading" secondItem="GI2-pG-xY6" secondAttribute="trailing" constant="3" id="XcC-QN-RvC"/>
@@ -443,6 +493,7 @@
                             <constraint firstItem="hQS-zO-5jk" firstAttribute="centerY" secondItem="eTe-YL-ihq" secondAttribute="centerY" id="Zxc-CS-J6U"/>
                             <constraint firstItem="noS-Oe-h8D" firstAttribute="top" secondItem="EQn-Ui-9g2" secondAttribute="bottom" constant="20" id="a58-F8-aAo"/>
                             <constraint firstItem="veS-Op-yVC" firstAttribute="top" secondItem="EQn-Ui-9g2" secondAttribute="bottom" constant="20" id="a6W-u7-50h"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="EaJ-eE-0P2" secondAttribute="trailing" constant="30" id="aB2-zE-XEn"/>
                             <constraint firstItem="Dfh-jp-IUp" firstAttribute="leading" secondItem="1zS-Ef-1fD" secondAttribute="leading" id="aF3-ra-Qbw"/>
                             <constraint firstItem="GYc-UC-m8N" firstAttribute="leading" secondItem="Dfh-jp-IUp" secondAttribute="trailing" constant="15" id="avj-1Z-4U2"/>
                             <constraint firstItem="02T-CE-n5K" firstAttribute="centerY" secondItem="seo-ZC-mcR" secondAttribute="centerY" id="b8Q-f5-vxp"/>
@@ -466,6 +517,7 @@
                             <constraint firstItem="EQn-Ui-9g2" firstAttribute="centerY" secondItem="AX0-Oc-KqE" secondAttribute="centerY" id="sEe-UO-4hc"/>
                             <constraint firstItem="WjV-Mj-RfF" firstAttribute="leading" secondItem="1zS-Ef-1fD" secondAttribute="trailing" constant="30" id="sGu-6r-jWI"/>
                             <constraint firstItem="U7M-y5-0Qa" firstAttribute="baseline" secondItem="wP2-vk-1Ov" secondAttribute="baseline" id="tiU-DL-3tS"/>
+                            <constraint firstItem="EaJ-eE-0P2" firstAttribute="leading" secondItem="lMS-tL-1xg" secondAttribute="trailing" constant="8" id="tmC-Vq-SmV"/>
                             <constraint firstItem="dBO-5d-Y2a" firstAttribute="leading" secondItem="mxN-79-k6X" secondAttribute="leadingMargin" constant="8" id="vNi-DL-fBp"/>
                             <constraint firstItem="XHy-hW-nO4" firstAttribute="top" secondItem="eTe-YL-ihq" secondAttribute="bottom" constant="10" id="w2c-wB-8ZW"/>
                             <constraint firstItem="GFC-3U-WEz" firstAttribute="centerX" secondItem="dBO-5d-Y2a" secondAttribute="centerX" id="wBs-17-X0l"/>

@@ -5,6 +5,7 @@
 //
 
 #import "FuncViewController.h"
+#import "DLRadioButton.h"
 
 typedef enum {
     Year,
@@ -45,14 +46,16 @@ int get_time_type(NSString *str, TimeType tp) {
 
 @end
 
-@implementation FuncViewController 
-uint8_t Crc8(const void *vptr, int len);
+@implementation FuncViewController {
+     NSInteger _commandType;//默认为开锁
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"锁详情";
     self.startTime.text = [self getTime:0];
     self.endTime.text = [self getTime:24*60*60];
+    _commandType = 1;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,7 +91,7 @@ uint8_t Crc8(const void *vptr, int len);
 }
 /*
 #pragma mark - Navigation
-
+ 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
@@ -252,10 +255,16 @@ uint8_t Crc8(const void *vptr, int len);
                        ZMGetTimeHour(),ZMGetTimeMinute(),ZMGetTimeSeconds()];
 }
 
+- (IBAction)doSetCommandType:(DLRadioButton *)sender{
+    _commandType = sender.tag;
+}
+
+
 - (IBAction)doUnlock1:(id)sender {
     ZMCmd0x02_1 *cmd = [ZMCmd0x02_1 new];
     cmd.adminId = [self myAdminId];
-    cmd.type = 1;
+    cmd.type = _commandType;
+    NSLog(@"_commandType:%d",_commandType);
     int errCode = [_theDevice sendCmd:cmd retBlock1:^ (ZMCmdResponse_1 *rsp,ZMDeviceError error) {
         if (error == ZMDeviceTimeout) {
             [SVProgressHUD showInfoWithStatus:@"超时洛"];
@@ -274,7 +283,8 @@ uint8_t Crc8(const void *vptr, int len);
 - (IBAction)doUnlock2:(id)sender {
     ZMCmd0x02_2 *cmd = [ZMCmd0x02_2 new];
     cmd.adminId = [self myAdminId];
-    cmd.type = 11;
+    cmd.type = _commandType + 10;
+    NSLog(@"_commandType:%d",_commandType);
     cmd.startTimeYear = get_time_type(_startTime.text, Year);
     cmd.startTimeMonth = get_time_type(_startTime.text, Month);
     cmd.startTimeDay = get_time_type(_startTime.text, Day);
@@ -343,8 +353,8 @@ uint8_t Crc8(const void *vptr, int len);
         [SVProgressHUD showInfoWithStatus:@"暂无记录"];
     } else{
         if (rsp.unlockRecords.count){
-         //获取到门锁记录,删除记录
-         [self deleteDoorUnlockRecord:_theDevice];
+           //获取到门锁记录,删除记录
+          [self deleteDoorUnlockRecord:_theDevice];
         }
       }
     }];
@@ -407,7 +417,6 @@ uint8_t Crc8(const void *vptr, int len);
         if (rsp.command == 10){
             if (rsp.result == 0){
                 [SVProgressHUD showSuccessWithStatus:@"指纹注册成功"];
-
             }else if (rsp.result == 1){
                 [SVProgressHUD showErrorWithStatus:@"指纹注册失败"];
 
@@ -523,12 +532,6 @@ uint8_t Crc8(const void *vptr, int len);
     if (errCode == ZMDeviceNotConnect) {
         [SVProgressHUD showInfoWithStatus:@"设备未连接"];
     }
-}
-
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-    [self.view endEditing:YES];
 }
 
 - (void)onConnected:(ZMDevice *)device {
